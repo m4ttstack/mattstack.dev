@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>mattstack</title>
+  <meta name="description" content="mattstack sets up your Mac for the team: one app, one menu-bar item, everything else underneath." />
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #0e0e11;
+      --fg: #f4f4f5;
+      --muted: #9d9da6;
+      --accent: #e64980;
+      --accent-wash: rgba(230, 73, 128, 0.12);
+      --card: #17171c;
+      font-family: ui-monospace, "SF Mono", SFMono-Regular, Menlo, monospace;
+    }
+    @media (prefers-color-scheme: light) {
+      :root { --bg: #fafafa; --fg: #17171c; --muted: #6b6b74; --card: #ffffff; }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; background: var(--bg); color: var(--fg);
+      min-height: 100vh; display: grid; place-items: center; padding: 24px;
+    }
+    main { max-width: 560px; width: 100%; }
+    .mark { font-size: 40px; font-weight: 700; letter-spacing: -1px; }
+    .mark span { color: var(--accent); }
+    p.tag { color: var(--muted); line-height: 1.55; margin: 14px 0 34px; }
+    .dl {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--accent); color: #fff; text-decoration: none;
+      padding: 13px 22px; border-radius: 10px; font-weight: 600; font-size: 15px;
+      transition: transform 0.1s ease, opacity 0.15s ease;
+    }
+    .dl:hover { transform: translateY(-1px); }
+    .dl[aria-disabled="true"] { opacity: 0.55; pointer-events: none; }
+    .meta { color: var(--muted); font-size: 13px; margin-top: 12px; min-height: 1.2em; }
+    .stubs { margin-top: 56px; display: flex; gap: 22px; flex-wrap: wrap; }
+    .stubs a { color: var(--muted); text-decoration: none; font-size: 14px; border-bottom: 1px dotted var(--muted); padding-bottom: 1px; }
+    .stubs a:hover { color: var(--fg); }
+    .fine { margin-top: 46px; color: var(--muted); font-size: 12px; line-height: 1.6; }
+    .fine code { background: var(--accent-wash); border-radius: 4px; padding: 1px 5px; }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="mark">matt<span>stack</span></div>
+    <p class="tag">Sets up your Mac for the team: one app, one menu-bar item, everything else underneath.</p>
+
+    <a class="dl" id="download" href="https://github.com/m4ttstack/rt/releases/latest" aria-disabled="true">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Download for Mac
+    </a>
+    <div class="meta" id="meta">checking latest version…</div>
+
+    <nav class="stubs">
+      <a href="https://github.com/m4ttstack">GitHub</a>
+      <a href="#" aria-disabled="true" title="coming soon">Docs (soon)</a>
+      <a href="https://github.com/m4ttstack/rt/releases">All releases</a>
+    </nav>
+
+    <p class="fine">Apple silicon, macOS 14+. Signed and notarized. Everything the app installs is reversible from Settings → Uninstall.</p>
+  </main>
+
+  <script>
+    // The release action attaches versioned asset names, so the button
+    // resolves the latest DMG at view time instead of pinning a URL that
+    // goes stale on every release. Falls back to the releases page.
+    fetch("https://api.github.com/repos/m4ttstack/rt/releases/latest")
+      .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
+      .then((rel) => {
+        const dmg = (rel.assets || []).find((a) => a.name.endsWith(".dmg"));
+        const btn = document.getElementById("download");
+        const meta = document.getElementById("meta");
+        if (dmg) {
+          btn.href = dmg.browser_download_url;
+          btn.removeAttribute("aria-disabled");
+          const mb = (dmg.size / 1048576).toFixed(0);
+          meta.textContent = `${rel.tag_name} · ${mb} MB · dmg`;
+        } else {
+          btn.removeAttribute("aria-disabled");
+          meta.textContent = "no packaged release yet — see all releases";
+        }
+      })
+      .catch(() => {
+        const btn = document.getElementById("download");
+        btn.removeAttribute("aria-disabled");
+        document.getElementById("meta").textContent = "";
+      });
+  </script>
+</body>
+</html>
