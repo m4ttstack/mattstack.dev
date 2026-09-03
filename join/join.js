@@ -30,7 +30,7 @@
     if (!hash || !hash.startsWith("#")) return null;
     var code = hash.slice(1);
     if (!code || !isValidCode(code)) return null;
-    return code;
+    return normalizeCode(code);
   }
 
   function buildDeepLink(code) {

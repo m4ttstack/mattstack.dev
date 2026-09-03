@@ -7,13 +7,20 @@ const { extractInviteCode, buildDeepLink, resolveJoinState } = require("./join.j
 const CROCKFORD_ALPHABET = "0123456789ABCDEFGHJKMNPQRSTVWXYZ";
 const VALID_CODE = (CROCKFORD_ALPHABET + CROCKFORD_ALPHABET + CROCKFORD_ALPHABET).slice(0, 77);
 const withDashes = (s) => s.match(/.{1,5}/g).join("-");
+// A messy-but-valid input: dash-chunked, lowercased, and with the digits
+// that Crockford maps back ('0' typed as 'o', '1' typed as 'i') swapped in.
+const messy = (s) => withDashes(s.replace(/0/g, "O").replace(/1/g, "I")).toLowerCase();
 
 test("extractInviteCode: reads a present, well-formed code from the fragment", () => {
   assert.equal(extractInviteCode("#" + VALID_CODE), VALID_CODE);
 });
 
-test("extractInviteCode: accepts the dash-chunked display form", () => {
-  assert.equal(extractInviteCode("#" + withDashes(VALID_CODE)), withDashes(VALID_CODE));
+test("extractInviteCode: accepts the dash-chunked display form and returns the canonical code", () => {
+  assert.equal(extractInviteCode("#" + withDashes(VALID_CODE)), VALID_CODE);
+});
+
+test("extractInviteCode: normalizes a messy-but-valid input to the canonical code", () => {
+  assert.equal(extractInviteCode("#" + messy(VALID_CODE)), VALID_CODE);
 });
 
 test("extractInviteCode: returns null when the fragment is absent", () => {

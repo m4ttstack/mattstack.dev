@@ -56,6 +56,7 @@
         const mb = (dmg.size / 1048576).toFixed(0);
         meta.textContent = `${rel.tag_name} - ${mb} MB - dmg`;
       } else {
+        btn.href = "https://github.com/m4ttstack/rt/releases";
         btn.removeAttribute("aria-disabled");
         meta.textContent = "no packaged release yet - see all releases";
       }
