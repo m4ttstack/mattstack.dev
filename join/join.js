@@ -33,7 +33,23 @@
     return code;
   }
 
-  const api = { extractInviteCode, isValidCode };
+  function buildDeepLink(code) {
+    return "mattstack://join/" + code;
+  }
+
+  // The deep-link attempt on load is fire-and-forget (no callback tells us
+  // whether an installed app claimed it), so the clipboard copy always
+  // happens alongside it rather than only after a detected failure.
+  function resolveJoinState(hash) {
+    var code = extractInviteCode(hash);
+    if (!code) {
+      return { hasCode: false, deepLink: null, clipboardText: null };
+    }
+    var deepLink = buildDeepLink(code);
+    return { hasCode: true, deepLink: deepLink, clipboardText: deepLink };
+  }
+
+  const api = { extractInviteCode, isValidCode, buildDeepLink, resolveJoinState };
   if (typeof module !== "undefined" && module.exports) {
     module.exports = api;
   } else {

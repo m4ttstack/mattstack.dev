@@ -1,6 +1,6 @@
 const test = require("node:test");
 const assert = require("node:assert/strict");
-const { extractInviteCode } = require("./join.js");
+const { extractInviteCode, buildDeepLink, resolveJoinState } = require("./join.js");
 
 // Real invite codes are 77-char Crockford base32 (see rt's invite-crypto.ts
 // decodeCode) -- built here rather than hand-typed so the length is exact.
@@ -32,4 +32,29 @@ test("extractInviteCode: rejects a code of the wrong length as malformed", () =>
 test("extractInviteCode: rejects a code with a character outside the Crockford alphabet", () => {
   const badChar = VALID_CODE.slice(0, 76) + "U";
   assert.equal(extractInviteCode("#" + badChar), null);
+});
+
+test("buildDeepLink: builds the mattstack://join/<code> URL", () => {
+  assert.equal(buildDeepLink(VALID_CODE), "mattstack://join/" + VALID_CODE);
+});
+
+test("resolveJoinState: with a valid code, carries the deep link as the clipboard fallback text", () => {
+  const state = resolveJoinState("#" + VALID_CODE);
+  assert.equal(state.hasCode, true);
+  assert.equal(state.deepLink, "mattstack://join/" + VALID_CODE);
+  assert.equal(state.clipboardText, state.deepLink);
+});
+
+test("resolveJoinState: with no code, shows no deep link and copies nothing", () => {
+  const state = resolveJoinState("");
+  assert.equal(state.hasCode, false);
+  assert.equal(state.deepLink, null);
+  assert.equal(state.clipboardText, null);
+});
+
+test("resolveJoinState: a malformed code is treated the same as no code", () => {
+  const state = resolveJoinState("#" + VALID_CODE.slice(0, 76));
+  assert.equal(state.hasCode, false);
+  assert.equal(state.deepLink, null);
+  assert.equal(state.clipboardText, null);
 });
