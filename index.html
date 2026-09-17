@@ -25,11 +25,11 @@
     <style>
       :root {
         color-scheme: dark light;
-        --bg: #0b0b0f;
-        --bg-alt: #101016;
-        --surface: #15151c;
-        --border: #26262f;
-        --border-soft: #1f1f28;
+        --bg: #0e0e14;
+        --bg-alt: #14141b;
+        --surface: #21212b;
+        --border: #383846;
+        --border-soft: #26262f;
         --fg: #f4f4f5;
         --muted: #9d9da6;
         --dim: #7a7a85;
@@ -38,8 +38,11 @@
         --accent-wash: rgba(230, 73, 128, 0.14);
         --accent-line: rgba(230, 73, 128, 0.25);
         --glow: rgba(230, 73, 128, 0.15);
-        --nav-bg: rgba(11, 11, 15, 0.72);
-        --shadow-icon: 0 14px 40px rgba(0, 0, 0, 0.5);
+        --nav-bg: rgba(14, 14, 20, 0.72);
+        --raised: #262631;
+        --raised-border: rgba(255, 255, 255, 0.36);
+        --icon-ring: rgba(255, 255, 255, 0.36);
+        --shadow-icon: 0 0 0 1px var(--icon-ring), 0 14px 40px rgba(0, 0, 0, 0.5);
         --shadow-cta: 0 8px 24px -4px rgba(230, 73, 128, 0.4);
         --content: 1160px;
       }
@@ -57,7 +60,10 @@
           --accent-line: rgba(230, 73, 128, 0.22);
           --glow: rgba(230, 73, 128, 0.1);
           --nav-bg: rgba(250, 250, 250, 0.78);
-          --shadow-icon: 0 14px 34px rgba(24, 20, 40, 0.16);
+          --raised: #ffffff;
+          --raised-border: #8f8f9c;
+          --icon-ring: rgba(20, 20, 30, 0.45);
+          --shadow-icon: 0 0 0 1px var(--icon-ring), 0 14px 34px rgba(24, 20, 40, 0.16);
         }
       }
 
@@ -134,9 +140,9 @@
         align-items: center;
         gap: 6px;
         padding: 8px 14px;
-        border: 1px solid var(--border);
+        border: 1px solid var(--raised-border);
         border-radius: 8px;
-        background: var(--surface);
+        background: var(--raised);
         color: var(--fg) !important;
         font-size: 13px;
         font-weight: 600;
@@ -163,32 +169,22 @@
         border-radius: 22px;
         box-shadow: var(--shadow-icon);
       }
-      .pill {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding: 6px 12px 6px 10px;
-        border: 1px solid var(--accent-line);
-        border-radius: 999px;
-        background: var(--accent-wash);
-        color: var(--accent);
-        font-size: 12.5px;
-        font-weight: 500;
-      }
-      .pill::before {
-        content: "";
-        width: 6px;
-        height: 6px;
-        border-radius: 50%;
-        background: var(--accent);
-      }
       h1 {
         margin: 0;
         max-width: 1040px;
+        text-wrap: balance;
         font-size: clamp(34px, 6.4vw, 66px);
         font-weight: 700;
         letter-spacing: -0.037em;
         line-height: 1.04;
+      }
+      .brk {
+        display: none;
+      }
+      @media (min-width: 900px) {
+        .brk {
+          display: inline;
+        }
       }
       .subhead {
         margin: 0;
@@ -224,8 +220,8 @@
         box-shadow: var(--shadow-cta);
       }
       .btn-ghost {
-        background: var(--surface);
-        border: 1px solid var(--border);
+        background: var(--raised);
+        border: 1px solid var(--raised-border);
         color: var(--fg);
       }
       .btn-ghost:hover {
@@ -263,6 +259,7 @@
       }
       h2 {
         margin: 0 0 14px;
+        text-wrap: balance;
         font-size: clamp(28px, 3.4vw, 40px);
         font-weight: 700;
         letter-spacing: -0.035em;
@@ -343,44 +340,9 @@
         background: var(--accent);
       }
 
-      /* principles */
-      .principles {
-        padding: 80px 48px;
-      }
-      .principles .wrap {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-      }
-      .principle {
-        padding-right: 40px;
-      }
-      .principle + .principle {
-        padding-left: 40px;
-        border-left: 1px solid var(--border);
-      }
-      .principle svg {
-        display: block;
-        width: 20px;
-        height: 20px;
-        margin-bottom: 12px;
-        color: var(--accent);
-      }
-      .principle h3 {
-        margin: 0 0 12px;
-        font-size: 17px;
-        font-weight: 600;
-        letter-spacing: -0.3px;
-      }
-      .principle p {
-        margin: 0;
-        color: var(--muted);
-        font-size: 14px;
-        line-height: 1.6;
-      }
-
       /* closing cta */
       .close {
-        padding: 24px 48px 96px;
+        padding: 88px 48px 96px;
       }
       .panel {
         display: flex;
@@ -449,7 +411,6 @@
         .nav,
         .hero,
         .apps,
-        .principles,
         .close,
         .footer {
           padding-left: 24px;
@@ -462,19 +423,6 @@
         .card:nth-child(4),
         .card:nth-child(5) {
           grid-column: span 1;
-        }
-        .principles .wrap {
-          grid-template-columns: 1fr;
-          gap: 32px;
-        }
-        .principle,
-        .principle + .principle {
-          padding: 0;
-          border-left: 0;
-        }
-        .principle + .principle {
-          padding-top: 32px;
-          border-top: 1px solid var(--border);
         }
       }
       @media (max-width: 720px) {
@@ -548,12 +496,10 @@
           width="88"
           height="88"
         />
-        <p class="pill">One Mac app. Five tools.<span data-ver></span></p>
-        <h1>Stop babysitting your agents.</h1>
+        <h1>An agentic application stack <br class="brk" />for engineers.</h1>
         <p class="subhead">
-          A suite of agentic development tools built for you and your team. Run
-          them in parallel, let them talk to each other, and watch the work
-          land.
+          Built for you and your team. Run your agents in parallel, let them talk
+          to each other, and watch the work land.
         </p>
         <div class="cta-row">
           <a
@@ -603,10 +549,10 @@
       <section class="apps" id="apps">
         <div class="wrap">
           <div class="section-head">
-            <h2>Five apps. One install.</h2>
+            <h2>Five tools for smoother agentic workflows.</h2>
             <p class="section-intro">
-              Each one does a job you are doing by hand today. They share one
-              install, one update, and one set of team intelligence.
+              Agents that run in parallel, chat with each other, and stay bound to
+              your team's intelligence.
             </p>
           </div>
 
@@ -616,11 +562,10 @@
                 <img src="/assets/deck.svg" alt="" />
                 <h3>deck</h3>
               </div>
-              <p class="promise">Every local app on its own domain.</p>
+              <p class="promise">Runs local apps on .localhost domains, powered by portless</p>
               <ul>
-                <li>Runs local apps on .localhost, powered by portless</li>
-                <li>Mattstack apps live alongside yours at .mattstack</li>
-                <li>Publish to a personal domain or push to Railway</li>
+                <li>Mattstack apps run alongside yours at .mattstack</li>
+                <li>Make a local app running on your machine available on a personal domain, or push to railway</li>
                 <li>Build, update, and restart anytime</li>
               </ul>
             </article>
@@ -630,12 +575,12 @@
                 <img src="/assets/board.svg" alt="" />
                 <h3>board</h3>
               </div>
-              <p class="promise">Agentic PR review that closes the loop.</p>
+              <p class="promise">Launch agentic PR reviews bound to team-scoped intelligence</p>
               <ul>
-                <li>Reviews bound to team-scoped intelligence</li>
                 <li>Auto re-review triggers and teammate nudges</li>
                 <li>Watches and heals CI failures on your PRs</li>
-                <li>Slack integration and custom PR tabs</li>
+                <li>Slack integrations</li>
+                <li>Custom PR tabs for internal vs external contributors</li>
               </ul>
             </article>
 
@@ -644,11 +589,10 @@
                 <img src="/assets/console.svg" alt="" />
                 <h3>console</h3>
               </div>
-              <p class="promise">Pipelines that already know your domain.</p>
+              <p class="promise">Create agentic work pipelines bound to your team's domain intelligence</p>
               <ul>
-                <li>Agentic work pipelines bound to team intelligence</li>
-                <li>Monitor what is running and what needs you</li>
-                <li>Compile team skill packs from pipeline skills</li>
+                <li>Monitor every pipeline: what's running, what needs you, what a run did</li>
+                <li>Compile team skill packs from mattstack pipeline skills, bound to the same intelligence</li>
               </ul>
             </article>
 
@@ -657,12 +601,13 @@
                 <img src="/assets/chat.svg" alt="" />
                 <h3>chat</h3>
               </div>
-              <p class="promise">Your agents, talking to each other.</p>
+              <p class="promise">Let your agents chat with each other</p>
               <ul>
-                <li>DMs and group chats between agents</li>
-                <li>Jump in any time through the chat viewer</li>
-                <li>Rides the existing Claude Code SendMessage socket</li>
+                <li>DMs and group chats</li>
+                <li>You can always jump in via the chat viewer</li>
+                <li>Uses the existing Claude Code SendMessage socket protocol</li>
                 <li>Works across Claude Code accounts</li>
+                <li>herdr plugin available for seamless integration (not required)</li>
               </ul>
             </article>
 
@@ -671,83 +616,17 @@
                 <img src="/assets/fast-browser.svg" alt="" />
                 <h3>fast-browser</h3>
               </div>
-              <p class="promise">The fastest way for an agent to drive Chrome.</p>
+              <p class="promise">The fastest way for your agent to drive your browser</p>
               <ul>
-                <li>Built on a Playwright fork, not a reinvention</li>
-                <li>A dedicated Chrome tab group per agent, in parallel</li>
-                <li>Screenshots and video capture on demand</li>
-                <li>Beautiful screenshot annotations out of the box</li>
+                <li>Built on a Playwright fork, not reinventing the wheel</li>
+                <li>Dedicated Chrome tab groups per agent for parallel sessions</li>
+                <li>Screenshots, video capture, and beautiful screenshot annotations out of the box</li>
               </ul>
             </article>
           </div>
         </div>
       </section>
 
-      <section class="principles">
-        <div class="wrap">
-          <div class="principle">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.8"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-            >
-              <rect x="2" y="7" width="20" height="10" rx="2" />
-              <line x1="6" y1="12" x2="6.01" y2="12" />
-              <line x1="10" y1="12" x2="14" y2="12" />
-            </svg>
-            <h3>Runs on your machine</h3>
-            <p>
-              Local-first by default. Your code, your Chrome, your accounts.
-              Nothing is proxied through a service you do not own.
-            </p>
-          </div>
-          <div class="principle">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.8"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-            >
-              <path d="M16 20v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-              <circle cx="9" cy="7" r="3.2" />
-              <path d="M22 20v-2a4 4 0 0 0-3-3.87" />
-              <path d="M16 4.13A4 4 0 0 1 16 11.9" />
-            </svg>
-            <h3>Works across accounts</h3>
-            <p>
-              Agents span multiple Claude Code accounts and keep going when one
-              of them runs out of room.
-            </p>
-          </div>
-          <div class="principle">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.8"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-            >
-              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
-              <polyline points="3.3 7 12 12 20.7 7" />
-              <line x1="12" y1="22" x2="12" y2="12" />
-            </svg>
-            <h3>One install, one update</h3>
-            <p>
-              Five apps ship and version together as a single Mac app. No
-              per-tool setup, no drift between them.
-            </p>
-          </div>
-        </div>
-      </section>
 
       <section class="close">
         <div class="wrap">
@@ -818,9 +697,6 @@
             buttons.forEach((b) => (b.href = dmg.browser_download_url));
             const mb = (dmg.size / 1048576).toFixed(0);
             setMeta(`${rel.tag_name} · ${mb} MB · dmg`);
-            document
-              .querySelectorAll("[data-ver]")
-              .forEach((v) => (v.textContent = ` ${rel.tag_name}`));
           } else {
             setMeta("no packaged release yet — see all releases");
           }
