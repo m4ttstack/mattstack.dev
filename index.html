@@ -340,34 +340,6 @@
         background: var(--accent);
       }
 
-      /* closing cta */
-      .close {
-        padding: 88px 48px 96px;
-      }
-      .panel {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 18px;
-        padding: 64px 48px;
-        border: 1px solid var(--border);
-        border-radius: 20px;
-        text-align: center;
-        background:
-          radial-gradient(52% 78% at 50% 100%, var(--glow) 0%, transparent 72%),
-          var(--bg-alt);
-      }
-      .panel h2 {
-        margin: 0;
-        max-width: 22ch;
-      }
-      .panel .section-intro {
-        max-width: 44ch;
-      }
-      .panel .btn {
-        margin-top: 10px;
-      }
-
       /* footer */
       .footer {
         display: flex;
@@ -411,7 +383,6 @@
         .nav,
         .hero,
         .apps,
-        .close,
         .footer {
           padding-left: 24px;
           padding-right: 24px;
@@ -436,9 +407,6 @@
         .apps {
           padding-top: 64px;
           padding-bottom: 68px;
-        }
-        .panel {
-          padding: 48px 24px;
         }
       }
       @media (prefers-reduced-motion: reduce) {
@@ -628,42 +596,6 @@
       </section>
 
 
-      <section class="close">
-        <div class="wrap">
-          <div class="panel">
-            <h2>Ready when you are.</h2>
-            <p class="section-intro">
-              Free, open source, and installed in about a minute.
-            </p>
-            <a
-              class="btn btn-primary"
-              data-dl
-              href="https://github.com/m4ttstack/rt/releases/latest"
-              aria-disabled="true"
-            >
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                aria-hidden="true"
-              >
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                <polyline points="7 10 12 15 17 10" />
-                <line x1="12" y1="15" x2="12" y2="3" />
-              </svg>
-              Download for Mac
-            </a>
-            <p class="meta">
-              <span data-meta></span><span>Apple silicon, macOS 14+</span>
-            </p>
-          </div>
-        </div>
-      </section>
     </main>
 
     <footer class="footer">
