@@ -44,11 +44,7 @@
         --icon-ring: rgba(255, 255, 255, 0.36);
         --shadow-icon: 0 0 0 1px var(--icon-ring), 0 14px 40px rgba(0, 0, 0, 0.5);
         --shadow-cta: 0 8px 24px -4px rgba(230, 73, 128, 0.4);
-        --panel: #17171f;
-        --ok: #5fbf8a;
-        --warn: #e0af68;
         --lilac-glow: rgba(190, 150, 240, 0.13);
-        --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
         --content: 1160px;
       }
       @media (prefers-color-scheme: light) {
@@ -69,9 +65,6 @@
           --raised-border: #8f8f9c;
           --icon-ring: rgba(20, 20, 30, 0.45);
           --shadow-icon: 0 0 0 1px var(--icon-ring), 0 14px 34px rgba(24, 20, 40, 0.16);
-          --panel: #f7f7f9;
-          --ok: #2f8f5b;
-          --warn: #b7791f;
           --lilac-glow: rgba(150, 100, 220, 0.1);
         }
       }
@@ -289,9 +282,9 @@
       }
       .tool {
         display: grid;
-        grid-template-columns: 124px minmax(0, 1fr) minmax(0, 420px);
-        grid-template-areas: "id copy panel";
-        align-items: center;
+        grid-template-columns: 124px minmax(0, 1fr) minmax(0, 1.15fr);
+        grid-template-areas: "id copy list";
+        align-items: start;
         column-gap: 40px;
         row-gap: 16px;
         padding: 34px 36px;
@@ -320,19 +313,19 @@
         letter-spacing: -0.3px;
       }
       .tool-copy {
-        grid-area: copy;
-        align-self: start;
-        display: flex;
-        flex-direction: column;
-        gap: 14px;
+        display: contents;
       }
       .promise {
+        grid-area: copy;
         margin: 0;
         text-wrap: balance;
         font-size: 20px;
         font-weight: 650;
         letter-spacing: -0.02em;
         line-height: 1.3;
+      }
+      .tool .dots {
+        grid-area: list;
       }
       .dots {
         margin: 0;
@@ -360,114 +353,6 @@
         background: var(--accent);
       }
 
-      /* example panels: illustrative, drawn in the tools' own vocabulary */
-      .tool > .panel {
-        grid-area: panel;
-      }
-      .panel {
-        display: grid;
-        grid-template-columns: auto minmax(0, 1fr) auto;
-        align-items: center;
-        column-gap: 16px;
-        padding: 6px 16px;
-        border: 1px solid var(--border);
-        border-radius: 10px;
-        background: var(--panel);
-        font-family: var(--mono);
-        font-size: 12.5px;
-        line-height: 1.4;
-      }
-      .row {
-        display: contents;
-      }
-      .row > span {
-        padding: 9px 0;
-      }
-      .row .name {
-        color: var(--fg);
-      }
-      .row .sub {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        color: var(--dim);
-      }
-      .row.stage .name {
-        padding-left: 2ch;
-        color: var(--muted);
-      }
-      .cmd,
-      .out,
-      .dock-card {
-        grid-column: 1 / -1;
-      }
-      .cmd {
-        padding: 9px 0 3px;
-        color: var(--fg);
-      }
-      .cmd::before {
-        content: "$ ";
-        color: var(--accent);
-      }
-      .out {
-        padding: 3px 0 9px;
-        overflow-wrap: anywhere;
-        color: var(--muted);
-      }
-      .out.head {
-        padding-bottom: 3px;
-        color: var(--fg);
-      }
-      .out.msg {
-        padding: 3px 0 3px 2ch;
-      }
-      .out.msg:last-child {
-        padding-bottom: 9px;
-      }
-      .out .h {
-        color: var(--fg);
-      }
-      .state {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        color: var(--muted);
-        white-space: nowrap;
-      }
-      .state::before {
-        content: "";
-        width: 7px;
-        height: 7px;
-        border-radius: 50%;
-        background: var(--ok);
-      }
-      .state[data-state="work"]::before {
-        background: var(--warn);
-      }
-      .state[data-state="need"]::before {
-        background: var(--accent);
-      }
-      .state[data-state="idle"]::before {
-        box-sizing: border-box;
-        border: 1.5px solid var(--ok);
-        background: transparent;
-      }
-      .dock-card {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        margin: 4px 0 10px;
-        padding: 10px 12px;
-        border: 1px solid var(--accent-line);
-        border-radius: 8px;
-        background: var(--accent-wash);
-        color: var(--fg);
-      }
-      .dock-card .sub {
-        margin-left: auto;
-        color: var(--dim);
-        white-space: nowrap;
-      }
 
       /* flock */
       .flock {
@@ -519,9 +404,6 @@
       .flock-copy .meta {
         justify-content: flex-start;
       }
-      .flock .panel {
-        padding-top: 10px;
-      }
 
       /* footer */
       .footer {
@@ -564,10 +446,10 @@
 
       @media (max-width: 1100px) {
         .tool {
-          grid-template-columns: minmax(0, 1fr) minmax(0, 360px);
+          grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
           grid-template-areas:
-            "id panel"
-            "copy panel";
+            "id id"
+            "copy list";
         }
         .tool-id {
           flex-direction: row;
@@ -594,7 +476,7 @@
           grid-template-areas:
             "id"
             "copy"
-            "panel";
+            "list";
           padding: 26px 20px;
         }
       }
@@ -742,13 +624,6 @@
                   <li>Build, update, and restart anytime</li>
                 </ul>
               </div>
-              <div class="panel" aria-hidden="true">
-                <div class="cmd">deck add shop --port 5173</div>
-                <div class="out">registered shop on port 5173</div>
-                <div class="cmd">deck url shop</div>
-                <div class="out">https://shop.localhost</div>
-                <div class="cmd">deck publish shop on</div>
-              </div>
             </article>
 
             <article class="tool">
@@ -765,12 +640,6 @@
                   <li>Custom PR tabs for internal vs external contributors</li>
                 </ul>
               </div>
-              <div class="panel" aria-hidden="true">
-                <div class="row"><span class="name">#128</span><span class="sub">dark mode for settings</span><span class="state">ready to merge</span></div>
-                <div class="row"><span class="name">#127</span><span class="sub">retry failed uploads</span><span class="state" data-state="work">review running…</span></div>
-                <div class="row"><span class="name">#125</span><span class="sub">bump dependencies</span><span class="state" data-state="work">watching CI…</span></div>
-                <div class="row"><span class="name">#124</span><span class="sub">export orders as csv</span><span class="state" data-state="need">changes requested</span></div>
-              </div>
             </article>
 
             <article class="tool">
@@ -784,13 +653,6 @@
                   <li>Monitor every pipeline: what's running, what needs you, what a run did</li>
                   <li>Compile team skill packs from mattstack pipeline skills, bound to the same intelligence</li>
                 </ul>
-              </div>
-              <div class="panel" aria-hidden="true">
-                <div class="row"><span class="name">feature</span><span class="sub">export orders as csv</span><span class="state" data-state="need">waiting on you</span></div>
-                <div class="row stage"><span class="name">plan</span><span class="sub"></span><span class="state">done</span></div>
-                <div class="row stage"><span class="name">implement</span><span class="sub"></span><span class="state">done</span></div>
-                <div class="row stage"><span class="name">review</span><span class="sub"></span><span class="state">done</span></div>
-                <div class="row stage"><span class="name">ship</span><span class="sub"></span><span class="state" data-state="idle">queued</span></div>
               </div>
             </article>
 
@@ -809,13 +671,6 @@
                   <li>herdr plugin available for seamless integration (not required)</li>
                 </ul>
               </div>
-              <div class="panel" aria-hidden="true">
-                <div class="cmd">rt chat read shop</div>
-                <div class="out head">#shop</div>
-                <div class="out msg">[14:32] <span class="h">amber-oyster:</span> tests pass, merging</div>
-                <div class="out msg">[14:33] <span class="h">proud-feather:</span> hold on, rebasing first</div>
-                <div class="out msg">[14:35] <span class="h">matt:</span> ok, ship it</div>
-              </div>
             </article>
 
             <article class="tool">
@@ -830,12 +685,6 @@
                   <li>Dedicated Chrome tab groups per agent for parallel sessions</li>
                   <li>Screenshots, video capture, and beautiful screenshot annotations out of the box</li>
                 </ul>
-              </div>
-              <div class="panel" aria-hidden="true">
-                <div class="cmd">fast-browser annotate checkout.json</div>
-                <div class="out">Annotated 3 regions at 1440x900: …/checkout.png</div>
-                <div class="cmd">fast-browser gif checkout.webm</div>
-                <div class="out">Converted checkout.webm at 8 fps (max width 1200): …/checkout.gif</div>
               </div>
             </article>
           </div>
@@ -855,11 +704,6 @@
               <a href="https://github.com/herdrdev/herdr">herdr</a> session: every
               workspace, tab and pane live, in real terminals you can drag around.
             </p>
-            <ul class="dots">
-              <li>Drag panes, tabs and workspaces to rearrange; every move can be undone</li>
-              <li>A dock for agents that finish or need you, gone once you've looked</li>
-              <li>Quit flock and herdr carries on exactly as before</li>
-            </ul>
             <div class="cta-row">
               <a
                 class="btn btn-primary"
@@ -891,16 +735,11 @@
               ><span>Apple silicon</span><span>macOS 15+</span>
             </p>
           </div>
-          <div class="panel" aria-hidden="true">
-            <div class="row"><span class="name">flock</span><span class="sub">3 panes</span><span class="state" data-state="need">blocked</span></div>
-            <div class="row"><span class="name">site</span><span class="sub">2 panes</span><span class="state" data-state="work">working</span></div>
-            <div class="row"><span class="name">docs</span><span class="sub">1 pane</span><span class="state">done</span></div>
-            <div class="dock-card">
-              <span class="state" data-state="need"></span>
-              migration needs input
-              <span class="sub">flock › migration</span>
-            </div>
-          </div>
+          <ul class="dots">
+            <li>Drag panes, tabs and workspaces to rearrange; every move can be undone</li>
+            <li>A dock for agents that finish or need you, gone once you've looked</li>
+            <li>Quit flock and herdr carries on exactly as before</li>
+          </ul>
         </div>
       </section>
 
