@@ -392,26 +392,40 @@
         white-space: nowrap;
         color: var(--dim);
       }
-      .row .msg {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+      .row.stage .name {
+        padding-left: 2ch;
         color: var(--muted);
       }
-      .panel.chat {
-        grid-template-columns: auto minmax(0, 1fr);
-      }
-      .panel.chat .name {
-        color: var(--accent);
-      }
-      .panel-foot,
+      .cmd,
+      .out,
       .dock-card {
         grid-column: 1 / -1;
       }
-      .panel-foot {
-        padding: 9px 0;
-        border-top: 1px dashed var(--border);
-        color: var(--dim);
+      .cmd {
+        padding: 9px 0 3px;
+        color: var(--fg);
+      }
+      .cmd::before {
+        content: "$ ";
+        color: var(--accent);
+      }
+      .out {
+        padding: 3px 0 9px;
+        overflow-wrap: anywhere;
+        color: var(--muted);
+      }
+      .out.head {
+        padding-bottom: 3px;
+        color: var(--fg);
+      }
+      .out.msg {
+        padding: 3px 0 3px 2ch;
+      }
+      .out.msg:last-child {
+        padding-bottom: 9px;
+      }
+      .out .h {
+        color: var(--fg);
       }
       .state {
         display: inline-flex;
@@ -729,10 +743,11 @@
                 </ul>
               </div>
               <div class="panel" aria-hidden="true">
-                <div class="row"><span class="name">shop</span><span class="sub">shop.localhost</span><span class="state">running</span></div>
-                <div class="row"><span class="name">api</span><span class="sub">api.localhost</span><span class="state">running</span></div>
-                <div class="row"><span class="name">board</span><span class="sub">board.mattstack</span><span class="state">running</span></div>
-                <div class="panel-foot">shop is also live at shop.yourname.dev</div>
+                <div class="cmd">deck add shop --port 5173</div>
+                <div class="out">registered shop on port 5173</div>
+                <div class="cmd">deck url shop</div>
+                <div class="out">https://shop.localhost</div>
+                <div class="cmd">deck publish shop on</div>
               </div>
             </article>
 
@@ -751,10 +766,10 @@
                 </ul>
               </div>
               <div class="panel" aria-hidden="true">
-                <div class="row"><span class="name">#412</span><span class="sub">fix flaky login test</span><span class="state" data-state="work">healing ci</span></div>
-                <div class="row"><span class="name">#409</span><span class="sub">add csv export</span><span class="state" data-state="work">re-reviewing</span></div>
-                <div class="row"><span class="name">#406</span><span class="sub">cache product images</span><span class="state" data-state="need">needs you</span></div>
-                <div class="row"><span class="name">#398</span><span class="sub">docs: fix a typo</span><span class="state" data-state="idle">external</span></div>
+                <div class="row"><span class="name">#128</span><span class="sub">dark mode for settings</span><span class="state">ready to merge</span></div>
+                <div class="row"><span class="name">#127</span><span class="sub">retry failed uploads</span><span class="state" data-state="work">review running…</span></div>
+                <div class="row"><span class="name">#125</span><span class="sub">bump dependencies</span><span class="state" data-state="work">watching CI…</span></div>
+                <div class="row"><span class="name">#124</span><span class="sub">export orders as csv</span><span class="state" data-state="need">changes requested</span></div>
               </div>
             </article>
 
@@ -771,9 +786,11 @@
                 </ul>
               </div>
               <div class="panel" aria-hidden="true">
-                <div class="row"><span class="name">feature</span><span class="sub">run 14 · review</span><span class="state" data-state="need">needs you</span></div>
-                <div class="row"><span class="name">bugfix</span><span class="sub">run 13 · implement</span><span class="state" data-state="work">running</span></div>
-                <div class="row"><span class="name">feature</span><span class="sub">run 12 · shipped</span><span class="state">done</span></div>
+                <div class="row"><span class="name">feature</span><span class="sub">export orders as csv</span><span class="state" data-state="need">waiting on you</span></div>
+                <div class="row stage"><span class="name">plan</span><span class="sub"></span><span class="state">done</span></div>
+                <div class="row stage"><span class="name">implement</span><span class="sub"></span><span class="state">done</span></div>
+                <div class="row stage"><span class="name">review</span><span class="sub"></span><span class="state">done</span></div>
+                <div class="row stage"><span class="name">ship</span><span class="sub"></span><span class="state" data-state="idle">queued</span></div>
               </div>
             </article>
 
@@ -792,12 +809,12 @@
                   <li>herdr plugin available for seamless integration (not required)</li>
                 </ul>
               </div>
-              <div class="panel chat" aria-hidden="true">
-                <div class="row"><span class="name">amber-oyster</span><span class="msg">tests green on my side, merging</span></div>
-                <div class="row"><span class="name">proud-feather</span><span class="msg">hold on, rebasing onto main first</span></div>
-                <div class="row"><span class="name">amber-oyster</span><span class="msg">ok, ping me when you're in</span></div>
-                <div class="row"><span class="name">you</span><span class="msg">ship it</span></div>
-                <div class="panel-foot">#shop · 2 agents · 1 human</div>
+              <div class="panel" aria-hidden="true">
+                <div class="cmd">rt chat read shop</div>
+                <div class="out head">#shop</div>
+                <div class="out msg">[14:32] <span class="h">amber-oyster:</span> tests pass, merging</div>
+                <div class="out msg">[14:33] <span class="h">proud-feather:</span> hold on, rebasing first</div>
+                <div class="out msg">[14:35] <span class="h">matt:</span> ok, ship it</div>
               </div>
             </article>
 
@@ -815,10 +832,10 @@
                 </ul>
               </div>
               <div class="panel" aria-hidden="true">
-                <div class="row"><span class="name">amber-oyster</span><span class="sub">3 tabs</span><span class="state" data-state="work">recording</span></div>
-                <div class="row"><span class="name">proud-feather</span><span class="sub">1 tab</span><span class="state">screenshot saved</span></div>
-                <div class="row"><span class="name">happy-harbor</span><span class="sub">2 tabs</span><span class="state" data-state="idle">idle</span></div>
-                <div class="panel-foot">one Chrome tab group per agent</div>
+                <div class="cmd">fast-browser annotate checkout.json</div>
+                <div class="out">Annotated 3 regions at 1440x900: …/checkout.png</div>
+                <div class="cmd">fast-browser gif checkout.webm</div>
+                <div class="out">Converted checkout.webm at 8 fps (max width 1200): …/checkout.gif</div>
               </div>
             </article>
           </div>
@@ -875,13 +892,13 @@
             </p>
           </div>
           <div class="panel" aria-hidden="true">
-            <div class="row"><span class="name">shop</span><span class="sub">3 tabs</span><span class="state" data-state="work">working</span></div>
-            <div class="row"><span class="name">api</span><span class="sub">2 tabs</span><span class="state" data-state="need">needs you</span></div>
-            <div class="row"><span class="name">docs</span><span class="sub">1 tab</span><span class="state">done</span></div>
+            <div class="row"><span class="name">flock</span><span class="sub">3 panes</span><span class="state" data-state="need">blocked</span></div>
+            <div class="row"><span class="name">site</span><span class="sub">2 panes</span><span class="state" data-state="work">working</span></div>
+            <div class="row"><span class="name">docs</span><span class="sub">1 pane</span><span class="state">done</span></div>
             <div class="dock-card">
               <span class="state" data-state="need"></span>
-              api · claude has a question
-              <span class="sub">jump to pane</span>
+              migration needs input
+              <span class="sub">flock › migration</span>
             </div>
           </div>
         </div>
