@@ -463,10 +463,11 @@
 
       @media (max-width: 1100px) {
         .tool {
-          grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+          grid-template-columns: minmax(0, 1fr);
           grid-template-areas:
-            "id id"
-            "copy list";
+            "id"
+            "copy"
+            "list";
         }
         .tool-id {
           flex-direction: row;
@@ -489,13 +490,10 @@
       }
       @media (max-width: 760px) {
         .tool {
-          grid-template-columns: minmax(0, 1fr);
-          grid-template-areas:
-            "id"
-            "copy"
-            "list";
           padding: 26px 20px;
         }
+      }
+      @media (max-width: 600px) {
         .features {
           grid-template-columns: minmax(0, 1fr);
         }
@@ -637,7 +635,7 @@
                 <h3>deck</h3>
               </div>
               <div class="tool-copy">
-                <p class="promise">Runs local apps on .localhost domains, powered by portless</p>
+                <p class="promise">Local apps on .localhost domains</p>
                 <div class="features">
                   <ul>
                     <li><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" /> <path d="M2 12h20" /></svg><span>Mattstack apps run alongside yours at .mattstack</span></li>
@@ -656,7 +654,7 @@
                 <h3>board</h3>
               </div>
               <div class="tool-copy">
-                <p class="promise">Launch agentic PR reviews bound to team-scoped intelligence</p>
+                <p class="promise">Agentic PR reviews for your team</p>
                 <div class="features">
                   <ul>
                     <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.7.7 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z" /> <path d="m9 11 2 2 4-4" /></svg><span>Review, get reviewed, and respond to reviews in a beautiful gate modal, with enough context to decide</span></li>
@@ -677,7 +675,7 @@
                 <h3>console</h3>
               </div>
               <div class="tool-copy">
-                <p class="promise">Create agentic work pipelines bound to your team's domain intelligence</p>
+                <p class="promise">Agentic work pipelines for your team</p>
                 <div class="features">
                   <ul>
                     <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" /></svg><span>Monitor every pipeline: what's running, what needs you, what a run did</span></li>
@@ -716,7 +714,7 @@
                 <h3>fast-browser</h3>
               </div>
               <div class="tool-copy">
-                <p class="promise">The fastest way for your agent to drive your browser</p>
+                <p class="promise">Your agent drives your browser, fast</p>
                 <div class="features">
                   <ul>
                     <li><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="18" r="3" /> <circle cx="6" cy="6" r="3" /> <circle cx="18" cy="6" r="3" /> <path d="M18 9v2c0 .6-.4 1-1 1H7c-.6 0-1-.4-1-1V9" /> <path d="M12 12v3" /></svg><span>Built on a Playwright fork, not reinventing the wheel</span></li>
