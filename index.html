@@ -44,6 +44,11 @@
         --icon-ring: rgba(255, 255, 255, 0.36);
         --shadow-icon: 0 0 0 1px var(--icon-ring), 0 14px 40px rgba(0, 0, 0, 0.5);
         --shadow-cta: 0 8px 24px -4px rgba(230, 73, 128, 0.4);
+        --panel: #17171f;
+        --ok: #5fbf8a;
+        --warn: #e0af68;
+        --lilac-glow: rgba(190, 150, 240, 0.13);
+        --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
         --content: 1160px;
       }
       @media (prefers-color-scheme: light) {
@@ -64,6 +69,10 @@
           --raised-border: #8f8f9c;
           --icon-ring: rgba(20, 20, 30, 0.45);
           --shadow-icon: 0 0 0 1px var(--icon-ring), 0 14px 34px rgba(24, 20, 40, 0.16);
+          --panel: #f7f7f9;
+          --ok: #2f8f5b;
+          --warn: #b7791f;
+          --lilac-glow: rgba(150, 100, 220, 0.1);
         }
       }
 
@@ -272,72 +281,232 @@
         font-size: 16.5px;
         line-height: 1.6;
       }
-      .grid {
-        display: grid;
-        grid-template-columns: repeat(6, 1fr);
-        gap: 16px;
-      }
-      .card {
-        grid-column: span 2;
-        display: flex;
-        flex-direction: column;
-        gap: 13px;
-        padding: 22px;
+      .tools {
         border: 1px solid var(--border);
         border-radius: 14px;
         background: var(--surface);
+        overflow: hidden;
       }
-      .card:nth-child(4),
-      .card:nth-child(5) {
-        grid-column: span 3;
-      }
-      .card-head {
-        display: flex;
+      .tool {
+        display: grid;
+        grid-template-columns: 124px minmax(0, 1fr) minmax(0, 420px);
+        grid-template-areas: "id copy panel";
         align-items: center;
-        gap: 11px;
+        column-gap: 40px;
+        row-gap: 16px;
+        padding: 34px 36px;
       }
-      .card-head img {
-        width: 34px;
-        height: 34px;
-        border-radius: 9px;
+      .tool + .tool {
+        border-top: 1px solid var(--border);
+      }
+      .tool-id {
+        grid-area: id;
+        align-self: start;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+      .tool-id img {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
         flex: none;
       }
-      .card-head h3 {
+      .tool-id h3 {
         margin: 0;
         font-size: 16px;
         font-weight: 700;
         letter-spacing: -0.3px;
       }
+      .tool-copy {
+        grid-area: copy;
+        align-self: start;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
       .promise {
         margin: 0;
-        font-size: 14.5px;
-        font-weight: 500;
-        line-height: 1.45;
+        text-wrap: balance;
+        font-size: 20px;
+        font-weight: 650;
+        letter-spacing: -0.02em;
+        line-height: 1.3;
       }
-      .card ul {
+      .dots {
         margin: 0;
         padding: 0;
         list-style: none;
         display: flex;
         flex-direction: column;
-        gap: 9px;
+        gap: 8px;
       }
-      .card li {
+      .dots li {
         position: relative;
-        padding-left: 13px;
+        padding-left: 14px;
         color: var(--muted);
-        font-size: 13px;
-        line-height: 1.5;
+        font-size: 14.5px;
+        line-height: 1.55;
       }
-      .card li::before {
+      .dots li::before {
         content: "";
         position: absolute;
         left: 0;
-        top: 7px;
+        top: 9px;
         width: 4px;
         height: 4px;
         border-radius: 50%;
         background: var(--accent);
+      }
+
+      /* example panels: illustrative, drawn in the tools' own vocabulary */
+      .tool > .panel {
+        grid-area: panel;
+      }
+      .panel {
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr) auto;
+        align-items: center;
+        column-gap: 16px;
+        padding: 6px 16px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        background: var(--panel);
+        font-family: var(--mono);
+        font-size: 12.5px;
+        line-height: 1.4;
+      }
+      .row {
+        display: contents;
+      }
+      .row > span {
+        padding: 9px 0;
+      }
+      .row .name {
+        color: var(--fg);
+      }
+      .row .sub {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        color: var(--dim);
+      }
+      .row .msg {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        color: var(--muted);
+      }
+      .panel.chat {
+        grid-template-columns: auto minmax(0, 1fr);
+      }
+      .panel.chat .name {
+        color: var(--accent);
+      }
+      .panel-foot,
+      .dock-card {
+        grid-column: 1 / -1;
+      }
+      .panel-foot {
+        padding: 9px 0;
+        border-top: 1px dashed var(--border);
+        color: var(--dim);
+      }
+      .state {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--muted);
+        white-space: nowrap;
+      }
+      .state::before {
+        content: "";
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--ok);
+      }
+      .state[data-state="work"]::before {
+        background: var(--warn);
+      }
+      .state[data-state="need"]::before {
+        background: var(--accent);
+      }
+      .state[data-state="idle"]::before {
+        box-sizing: border-box;
+        border: 1.5px solid var(--ok);
+        background: transparent;
+      }
+      .dock-card {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 4px 0 10px;
+        padding: 10px 12px;
+        border: 1px solid var(--accent-line);
+        border-radius: 8px;
+        background: var(--accent-wash);
+        color: var(--fg);
+      }
+      .dock-card .sub {
+        margin-left: auto;
+        color: var(--dim);
+        white-space: nowrap;
+      }
+
+      /* flock */
+      .flock {
+        padding: 96px 48px;
+        background:
+          radial-gradient(52% 70% at 82% 50%, var(--lilac-glow) 0%, transparent 72%),
+          var(--bg);
+      }
+      .flock-inner {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 420px);
+        align-items: center;
+        gap: 64px;
+      }
+      .flock-copy {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 18px;
+      }
+      .flock-id {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 18px;
+        font-weight: 700;
+        letter-spacing: -0.3px;
+      }
+      .flock-id img {
+        width: 52px;
+        height: 52px;
+        border-radius: 12px;
+        box-shadow: var(--shadow-icon);
+      }
+      .flock-copy h2 {
+        margin: 0;
+      }
+      .flock-lede {
+        margin: 0;
+        max-width: 56ch;
+        color: var(--muted);
+        font-size: 16.5px;
+        line-height: 1.6;
+      }
+      .flock-copy .cta-row {
+        justify-content: flex-start;
+        margin-top: 6px;
+      }
+      .flock-copy .meta {
+        justify-content: flex-start;
+      }
+      .flock .panel {
+        padding-top: 10px;
       }
 
       /* footer */
@@ -379,21 +548,40 @@
         cursor: default;
       }
 
+      @media (max-width: 1100px) {
+        .tool {
+          grid-template-columns: minmax(0, 1fr) minmax(0, 360px);
+          grid-template-areas:
+            "id panel"
+            "copy panel";
+        }
+        .tool-id {
+          flex-direction: row;
+          align-items: center;
+        }
+      }
       @media (max-width: 980px) {
         .nav,
         .hero,
         .apps,
+        .flock,
         .footer {
           padding-left: 24px;
           padding-right: 24px;
         }
-        .grid {
-          grid-template-columns: 1fr;
+        .flock-inner {
+          grid-template-columns: minmax(0, 1fr);
+          gap: 40px;
         }
-        .card,
-        .card:nth-child(4),
-        .card:nth-child(5) {
-          grid-column: span 1;
+      }
+      @media (max-width: 760px) {
+        .tool {
+          grid-template-columns: minmax(0, 1fr);
+          grid-template-areas:
+            "id"
+            "copy"
+            "panel";
+          padding: 26px 20px;
         }
       }
       @media (max-width: 720px) {
@@ -404,7 +592,8 @@
           padding-top: 64px;
           padding-bottom: 60px;
         }
-        .apps {
+        .apps,
+        .flock {
           padding-top: 64px;
           padding-bottom: 68px;
         }
@@ -427,12 +616,13 @@
       </a>
       <nav class="nav-links">
         <a class="only-wide" href="#apps">Apps</a>
+        <a class="only-wide" href="#flock">flock</a>
         <a class="only-wide" href="https://github.com/m4ttstack">GitHub</a>
         <a class="only-wide" href="https://rt.cool">Docs</a>
         <a class="only-wide" href="https://github.com/m4ttstack/rt/releases">Releases</a>
         <a
           class="nav-dl"
-          data-dl
+          data-dl="mattstack"
           href="https://github.com/m4ttstack/rt/releases/latest"
         >
           <svg
@@ -472,7 +662,7 @@
         <div class="cta-row">
           <a
             class="btn btn-primary"
-            data-dl
+            data-dl="mattstack"
             href="https://github.com/m4ttstack/rt/releases/latest"
             aria-disabled="true"
           >
@@ -509,7 +699,7 @@
           </a>
         </div>
         <p class="meta">
-          <span data-meta>checking latest version…</span
+          <span data-meta="mattstack">checking latest version…</span
           ><span>Apple silicon</span><span>macOS 14+</span>
         </p>
       </section>
@@ -524,73 +714,175 @@
             </p>
           </div>
 
-          <div class="grid">
-            <article class="card">
-              <div class="card-head">
+          <div class="tools">
+            <article class="tool">
+              <div class="tool-id">
                 <img src="/assets/deck.svg" alt="" />
                 <h3>deck</h3>
               </div>
-              <p class="promise">Runs local apps on .localhost domains, powered by portless</p>
-              <ul>
-                <li>Mattstack apps run alongside yours at .mattstack</li>
-                <li>Make a local app running on your machine available on a personal domain, or push to railway</li>
-                <li>Build, update, and restart anytime</li>
-              </ul>
+              <div class="tool-copy">
+                <p class="promise">Runs local apps on .localhost domains, powered by portless</p>
+                <ul class="dots">
+                  <li>Mattstack apps run alongside yours at .mattstack</li>
+                  <li>Make a local app running on your machine available on a personal domain, or push to railway</li>
+                  <li>Build, update, and restart anytime</li>
+                </ul>
+              </div>
+              <div class="panel" aria-hidden="true">
+                <div class="row"><span class="name">shop</span><span class="sub">shop.localhost</span><span class="state">running</span></div>
+                <div class="row"><span class="name">api</span><span class="sub">api.localhost</span><span class="state">running</span></div>
+                <div class="row"><span class="name">board</span><span class="sub">board.mattstack</span><span class="state">running</span></div>
+                <div class="panel-foot">shop is also live at shop.yourname.dev</div>
+              </div>
             </article>
 
-            <article class="card">
-              <div class="card-head">
+            <article class="tool">
+              <div class="tool-id">
                 <img src="/assets/board.svg" alt="" />
                 <h3>board</h3>
               </div>
-              <p class="promise">Launch agentic PR reviews bound to team-scoped intelligence</p>
-              <ul>
-                <li>Auto re-review triggers and teammate nudges</li>
-                <li>Watches and heals CI failures on your PRs</li>
-                <li>Slack integrations</li>
-                <li>Custom PR tabs for internal vs external contributors</li>
-              </ul>
+              <div class="tool-copy">
+                <p class="promise">Launch agentic PR reviews bound to team-scoped intelligence</p>
+                <ul class="dots">
+                  <li>Auto re-review triggers and teammate nudges</li>
+                  <li>Watches and heals CI failures on your PRs</li>
+                  <li>Slack integrations</li>
+                  <li>Custom PR tabs for internal vs external contributors</li>
+                </ul>
+              </div>
+              <div class="panel" aria-hidden="true">
+                <div class="row"><span class="name">#412</span><span class="sub">fix flaky login test</span><span class="state" data-state="work">healing ci</span></div>
+                <div class="row"><span class="name">#409</span><span class="sub">add csv export</span><span class="state" data-state="work">re-reviewing</span></div>
+                <div class="row"><span class="name">#406</span><span class="sub">cache product images</span><span class="state" data-state="need">needs you</span></div>
+                <div class="row"><span class="name">#398</span><span class="sub">docs: fix a typo</span><span class="state" data-state="idle">external</span></div>
+              </div>
             </article>
 
-            <article class="card">
-              <div class="card-head">
+            <article class="tool">
+              <div class="tool-id">
                 <img src="/assets/console.svg" alt="" />
                 <h3>console</h3>
               </div>
-              <p class="promise">Create agentic work pipelines bound to your team's domain intelligence</p>
-              <ul>
-                <li>Monitor every pipeline: what's running, what needs you, what a run did</li>
-                <li>Compile team skill packs from mattstack pipeline skills, bound to the same intelligence</li>
-              </ul>
+              <div class="tool-copy">
+                <p class="promise">Create agentic work pipelines bound to your team's domain intelligence</p>
+                <ul class="dots">
+                  <li>Monitor every pipeline: what's running, what needs you, what a run did</li>
+                  <li>Compile team skill packs from mattstack pipeline skills, bound to the same intelligence</li>
+                </ul>
+              </div>
+              <div class="panel" aria-hidden="true">
+                <div class="row"><span class="name">feature</span><span class="sub">run 14 · review</span><span class="state" data-state="need">needs you</span></div>
+                <div class="row"><span class="name">bugfix</span><span class="sub">run 13 · implement</span><span class="state" data-state="work">running</span></div>
+                <div class="row"><span class="name">feature</span><span class="sub">run 12 · shipped</span><span class="state">done</span></div>
+              </div>
             </article>
 
-            <article class="card">
-              <div class="card-head">
+            <article class="tool">
+              <div class="tool-id">
                 <img src="/assets/chat.svg" alt="" />
                 <h3>chat</h3>
               </div>
-              <p class="promise">Let your agents chat with each other</p>
-              <ul>
-                <li>DMs and group chats</li>
-                <li>You can always jump in via the chat viewer</li>
-                <li>Uses the existing Claude Code SendMessage socket protocol</li>
-                <li>Works across Claude Code accounts</li>
-                <li>herdr plugin available for seamless integration (not required)</li>
-              </ul>
+              <div class="tool-copy">
+                <p class="promise">Let your agents chat with each other</p>
+                <ul class="dots">
+                  <li>DMs and group chats</li>
+                  <li>You can always jump in via the chat viewer</li>
+                  <li>Uses the existing Claude Code SendMessage socket protocol</li>
+                  <li>Works across Claude Code accounts</li>
+                  <li>herdr plugin available for seamless integration (not required)</li>
+                </ul>
+              </div>
+              <div class="panel chat" aria-hidden="true">
+                <div class="row"><span class="name">amber-oyster</span><span class="msg">tests green on my side, merging</span></div>
+                <div class="row"><span class="name">proud-feather</span><span class="msg">hold on, rebasing onto main first</span></div>
+                <div class="row"><span class="name">amber-oyster</span><span class="msg">ok, ping me when you're in</span></div>
+                <div class="row"><span class="name">you</span><span class="msg">ship it</span></div>
+                <div class="panel-foot">#shop · 2 agents · 1 human</div>
+              </div>
             </article>
 
-            <article class="card">
-              <div class="card-head">
+            <article class="tool">
+              <div class="tool-id">
                 <img src="/assets/fast-browser.svg" alt="" />
                 <h3>fast-browser</h3>
               </div>
-              <p class="promise">The fastest way for your agent to drive your browser</p>
-              <ul>
-                <li>Built on a Playwright fork, not reinventing the wheel</li>
-                <li>Dedicated Chrome tab groups per agent for parallel sessions</li>
-                <li>Screenshots, video capture, and beautiful screenshot annotations out of the box</li>
-              </ul>
+              <div class="tool-copy">
+                <p class="promise">The fastest way for your agent to drive your browser</p>
+                <ul class="dots">
+                  <li>Built on a Playwright fork, not reinventing the wheel</li>
+                  <li>Dedicated Chrome tab groups per agent for parallel sessions</li>
+                  <li>Screenshots, video capture, and beautiful screenshot annotations out of the box</li>
+                </ul>
+              </div>
+              <div class="panel" aria-hidden="true">
+                <div class="row"><span class="name">amber-oyster</span><span class="sub">3 tabs</span><span class="state" data-state="work">recording</span></div>
+                <div class="row"><span class="name">proud-feather</span><span class="sub">1 tab</span><span class="state">screenshot saved</span></div>
+                <div class="row"><span class="name">happy-harbor</span><span class="sub">2 tabs</span><span class="state" data-state="idle">idle</span></div>
+                <div class="panel-foot">one Chrome tab group per agent</div>
+              </div>
             </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="flock" id="flock">
+        <div class="wrap flock-inner">
+          <div class="flock-copy">
+            <div class="flock-id">
+              <img src="/assets/flock.png" alt="" width="52" height="52" />
+              flock
+            </div>
+            <h2>The mattstack way to use herdr.</h2>
+            <p class="flock-lede">
+              A native Mac window onto your
+              <a href="https://github.com/herdrdev/herdr">herdr</a> session: every
+              workspace, tab and pane live, in real terminals you can drag around.
+            </p>
+            <ul class="dots">
+              <li>Drag panes, tabs and workspaces to rearrange; every move can be undone</li>
+              <li>A dock for agents that finish or need you, gone once you've looked</li>
+              <li>Quit flock and herdr carries on exactly as before</li>
+            </ul>
+            <div class="cta-row">
+              <a
+                class="btn btn-primary"
+                data-dl="flock"
+                href="https://github.com/m4ttstack/flock/releases/latest"
+                aria-disabled="true"
+              >
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                  <polyline points="7 10 12 15 17 10" />
+                  <line x1="12" y1="15" x2="12" y2="3" />
+                </svg>
+                Download flock
+              </a>
+              <a class="btn btn-ghost" href="https://github.com/m4ttstack/flock">View source</a>
+            </div>
+            <p class="meta">
+              <span data-meta="flock">checking latest version…</span
+              ><span>Apple silicon</span><span>macOS 15+</span>
+            </p>
+          </div>
+          <div class="panel" aria-hidden="true">
+            <div class="row"><span class="name">shop</span><span class="sub">3 tabs</span><span class="state" data-state="work">working</span></div>
+            <div class="row"><span class="name">api</span><span class="sub">2 tabs</span><span class="state" data-state="need">needs you</span></div>
+            <div class="row"><span class="name">docs</span><span class="sub">1 tab</span><span class="state">done</span></div>
+            <div class="dock-card">
+              <span class="state" data-state="need"></span>
+              api · claude has a question
+              <span class="sub">jump to pane</span>
+            </div>
           </div>
         </div>
       </section>
@@ -611,32 +903,37 @@
     </footer>
 
     <script>
-      // The release action attaches versioned asset names, so every download
-      // button resolves the latest DMG at view time instead of pinning a URL
-      // that goes stale on every release. Falls back to the releases page.
-      const buttons = document.querySelectorAll("[data-dl]");
-      const metas = document.querySelectorAll("[data-meta]");
-      const enable = () =>
-        buttons.forEach((b) => b.removeAttribute("aria-disabled"));
-      const setMeta = (text) => metas.forEach((m) => (m.textContent = text));
+      // Releases attach versioned asset names, so every download button
+      // resolves the latest DMG at view time instead of pinning a URL that
+      // goes stale on every release. Falls back to the releases page.
+      function resolveLatest(repo, key) {
+        const buttons = document.querySelectorAll(`[data-dl="${key}"]`);
+        const metas = document.querySelectorAll(`[data-meta="${key}"]`);
+        const enable = () =>
+          buttons.forEach((b) => b.removeAttribute("aria-disabled"));
+        const setMeta = (text) => metas.forEach((m) => (m.textContent = text));
 
-      fetch("https://api.github.com/repos/m4ttstack/rt/releases/latest")
-        .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
-        .then((rel) => {
-          const dmg = (rel.assets || []).find((a) => a.name.endsWith(".dmg"));
-          enable();
-          if (dmg) {
-            buttons.forEach((b) => (b.href = dmg.browser_download_url));
-            const mb = (dmg.size / 1048576).toFixed(0);
-            setMeta(`${rel.tag_name} · ${mb} MB · dmg`);
-          } else {
-            setMeta("no packaged release yet — see all releases");
-          }
-        })
-        .catch(() => {
-          enable();
-          setMeta("");
-        });
+        fetch(`https://api.github.com/repos/${repo}/releases/latest`)
+          .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
+          .then((rel) => {
+            const dmg = (rel.assets || []).find((a) => a.name.endsWith(".dmg"));
+            enable();
+            if (dmg) {
+              buttons.forEach((b) => (b.href = dmg.browser_download_url));
+              const mb = (dmg.size / 1048576).toFixed(0);
+              setMeta(`${rel.tag_name} · ${mb} MB · dmg`);
+            } else {
+              setMeta("no packaged release yet, see all releases");
+            }
+          })
+          .catch(() => {
+            enable();
+            setMeta("");
+          });
+      }
+
+      resolveLatest("m4ttstack/rt", "mattstack");
+      resolveLatest("m4ttstack/flock", "flock");
     </script>
   </body>
 </html>
