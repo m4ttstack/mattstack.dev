@@ -12,7 +12,7 @@
       navigator.clipboard.writeText(state.clipboardText).then(
         function () {
           status.textContent =
-            "Copied your invite link. Install mattstack, launch it, and the invite will be ready to accept.";
+            "Copied your invite link. Install mattstack, open it, choose Join a team, and click Paste.";
         },
         function () {
           status.textContent = "Copy this after installing: " + state.clipboardText;
@@ -26,7 +26,7 @@
   if (state.hasCode) {
     headline.textContent = "You've been invited to a mattstack team.";
     subtext.textContent =
-      "Open mattstack if it's already installed, or download it below and the invite will be ready when you launch it.";
+      "Open mattstack if it's already installed. Otherwise download it below. The invite is copied for you, so in setup choose Join a team and click Paste.";
     openBtn.hidden = false;
     openBtn.addEventListener("click", function () {
       window.location.href = state.deepLink;
@@ -44,7 +44,7 @@
       "Ask whoever sent it for a fresh link, or download mattstack directly below.";
   }
 
-  fetch("https://api.github.com/repos/m4ttstack/rt/releases/latest")
+  fetch("https://api.github.com/repos/m4ttstack/mattstack/releases/latest")
     .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
     .then((rel) => {
       const dmg = (rel.assets || []).find((a) => a.name.endsWith(".dmg"));
@@ -56,7 +56,7 @@
         const mb = (dmg.size / 1048576).toFixed(0);
         meta.textContent = `${rel.tag_name} - ${mb} MB - dmg`;
       } else {
-        btn.href = "https://github.com/m4ttstack/rt/releases";
+        btn.href = "https://github.com/m4ttstack/mattstack/releases";
         btn.removeAttribute("aria-disabled");
         meta.textContent = "no packaged release yet - see all releases";
       }
