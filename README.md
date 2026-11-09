@@ -1,6 +1,5 @@
 # mattstack.dev
 
-The front door: a static landing page that resolves the latest mattstack.app DMG
-from m4ttstack/mattstack releases at view time. Deployed to Cloudflare Pages with `./deploy.sh`, which assembles the deploy
-root from an allowlist so repo internals (`docs/`, the `.pen` design source,
-tests) are not served.
+This repo is archived. The site now lives in the mattstack monorepo at
+[`sites/home`](https://github.com/m4ttstack/mattstack/tree/main/sites/home),
+and deploys from there with `bun run deploy`.
